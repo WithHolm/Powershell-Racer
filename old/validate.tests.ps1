@@ -18,20 +18,20 @@ if($CreateFile){
     $LineLength = [math]::round(($SizeMB * 1mb) / 100)
 
     if((test-path $FileName)){
-        $MbSize = ($SizeMB * 1mb)
+        $MBSize = ($SizeMB * 1mb)
         #if file is within 10% of the size, skip creation
-        if((get-item $FileName).length -gt ($MbSize * 0.90) -and (get-item $FileName).length -lt ($MbSize * 1.10)){
-            Write-host "File $FileName already exists and is $SizeMB Mb long. Skipping creation"
+        if((get-item $FileName).length -gt ($MBSize * 0.90) -and (get-item $FileName).length -lt ($MBSize * 1.10)){
+            Write-host "File $FileName already exists and is $SizeMB MB long. Skipping creation"
             $skipFileCreation = $true
         }
         else{
-            Write-host "File $FileName already exists (and is $((get-item $FileName).length * 1mb), while we require $Mbsize). removing it"
+            Write-host "File $FileName already exists (and is $((get-item $FileName).length * 1mb), while we require $MBsize). removing it"
             get-item $FileName|Remove-Item -ErrorAction SilentlyContinue
         }
     }
     if(!$skipFileCreation)
     {
-        Write-host "creating $LineLength lines, or $SizeMB Mb of data for file"
+        Write-host "creating $LineLength lines, or $SizeMB MB of data for file"
         $Arr = [string[]]::new($LineLength)
         for ($i = 0; $i -lt $LineLength; $i++) {
             $content = "This is line $($i + 1) of the file. It's always fun to count the characters in a long sentence"
@@ -49,7 +49,7 @@ elseif(!(Test-Path $FileName)){
 
 }
 
-Write-host "$FileName is $((get-item $FileName).length / 1mb) Mb long"
+Write-host "$FileName is $((get-item $FileName).length / 1mb) MB long"
 Write-host "Rase is $laps laps long, measured in $Measurement"
 
 #DEFINING THE COMMANDS
@@ -177,7 +177,7 @@ $Race.GetEnumerator().Where{$_.Key -ne "_"} | % {
 }
 
 Write-host "------"
-Write-host "Results after $laps laps with a file of $((get-item $FileName).length / 1mb) Mb, measured in $Measurement"
+Write-host "Results after $laps laps with a file of $((get-item $FileName).length / 1mb) MB, measured in $Measurement"
 Write-host "------"
 $results.GetEnumerator() | % {
     $Name = $_.Key
@@ -185,7 +185,7 @@ $results.GetEnumerator() | % {
     $LapTimes = $Result.Laptimes|sort -Descending
 
     $Average = ($LapTimes | Measure-Object -average).Average
-    
+
     #count of 5% and 1% of laps
     $5percentOfLaps = [int]$laps * 0.05
     $1percentOfLaps = [int]$laps * 0.01
