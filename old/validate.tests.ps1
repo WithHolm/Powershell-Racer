@@ -184,8 +184,8 @@ $results.GetEnumerator() | % {
     $Result = $_.Value
     $LapTimes = $Result.Laptimes|sort -Descending
 
-    $stats = ($LapTimes | Measure-Object -AllStats)
-
+    $Average = ($LapTimes | Measure-Object -average).Average
+    
     #count of 5% and 1% of laps
     $5percentOfLaps = [int]$laps * 0.05
     $1percentOfLaps = [int]$laps * 0.01
@@ -195,7 +195,7 @@ $results.GetEnumerator() | % {
         Name = $Name
         Measurement = $Measurement
         #average of all runs
-        Avg = [math]::Round($stats.Average,2)
+        Avg = [math]::Round($Average,2)
         #average of the 99% fastest runs
         p99 = [math]::Round(($LapTimes|select-object -Skip $1percentOfLaps |Measure-Object -Average).Average,2)
         #average of the 95% fastest runs
